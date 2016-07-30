@@ -56,7 +56,57 @@ public static void main(final String[] args) throws Exception {
 }
 ```    
 
-**4. Run the Application**
+**4. Usage of @SpringBean annotations**
+If you want to use the @SpringBean annotations follow the steps
+
+*1. add wicket spring dependencies*
+
+```
+<!-- WICKET SPRING DEPENDENCIES-->
+<dependency>
+    <groupId>org.apache.wicket</groupId>
+    <artifactId>wicket-spring</artifactId>
+    <version>${wicket.version}</version>
+</dependency>
+```        
+
+*2. Enable spring injections in the application class (init method)*
+
+```java
+// spring injector for @SpringBean annotations
+getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+```
+
+*3. usage*
+
+Create the YourService.class with `@Service` annotation
+
+Use the Service in the page / panel
+```java
+public class SampleHomePage extends WebPage {
+
+    /**
+     * {@link ...YourService}.
+     */
+    @SuppressWarnings("unused")
+    @SpringBean(name = "yourService")
+    private YourService yourService;
+
+    /**
+     * @param parameters {@link org.apache.wicket.request.mapper.parameter.PageParameters}
+     */
+    public SampleHomePage(final PageParameters parameters) {
+        super(parameters);
+
+        yourService.doSomething();
+    }
+}
+```
+
+
+
+ 
+**5. Run the Application**
 
 maven spring boot plugin is included in `pom.xml`
 
